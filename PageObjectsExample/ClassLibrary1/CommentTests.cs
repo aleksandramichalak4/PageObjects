@@ -8,7 +8,7 @@ using Xunit;
 
 namespace ClassLibrary1
 {
-    public class CommentTests : BaseTest
+    public partial class CommentTests : BaseTest
     {
         [Fact]
         public void CanAddNewCommentToLatestNote()
@@ -20,16 +20,6 @@ namespace ClassLibrary1
 
             Assert.True(noteWithComment.Has(exampleComment));
 
-
-        }
-
-        public class NoteTest : BaseTest
-        {
-            [Fact]
-            public void Can_publish_new_note()
-            {
-
-            }
 
         }
     }
