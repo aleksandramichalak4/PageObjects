@@ -1,5 +1,6 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
+using System;
 using System.Linq;
 
 namespace ClassLibrary1
@@ -28,6 +29,23 @@ namespace ClassLibrary1
             browser.FindElement(By.Id("submit")).Submit();
 
             return new NotePage(browser);
+        }
+
+        internal bool HasNote(ExampleNote exampleNote)
+        {
+            var note = browser.FindElements(By.CssSelector("#main"));
+            var myNote = note
+                .Where(c => c.FindElement(By.CssSelector(".entry-title")).Text == exampleNote.Title)
+                .Where(c => c.FindElement(By.CssSelector(".entry-content > p")).Text == exampleNote.Content);
+
+            return myNote.Count() == 1;
+            
+
+        }
+
+        internal void GoTo(string createNewNote)
+        {
+            browser.Navigate().GoToUrl(createNewNote);
         }
 
         internal bool Has(ExampleComment exampleComment)
