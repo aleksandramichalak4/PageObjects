@@ -18,9 +18,7 @@ namespace ClassLibrary1
                 notePage.GoTo(CreateNewNote);
                 Assert.True(notePage.HasNote(exampleNote));
 
-
-
-                
+  
             }
 
         }

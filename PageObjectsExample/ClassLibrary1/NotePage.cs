@@ -33,12 +33,14 @@ namespace ClassLibrary1
 
         internal bool HasNote(ExampleNote exampleNote)
         {
-            var note = browser.FindElements(By.CssSelector("#main"));
-            var myNote = note
-                .Where(c => c.FindElement(By.CssSelector(".entry-title")).Text == exampleNote.Title)
-                .Where(c => c.FindElement(By.CssSelector(".entry-content > p")).Text == exampleNote.Content);
+            var note = browser.FindElement(By.CssSelector("#main"));
 
-            return myNote.Count() == 1;
+            var title = note.FindElement(By.CssSelector(".entry.title"));
+            var content = note.FindElement(By.CssSelector(".entry-content"));
+
+
+            return title.Text == exampleNote.Title && content.Text == exampleNote.Content;
+
             
 
         }
