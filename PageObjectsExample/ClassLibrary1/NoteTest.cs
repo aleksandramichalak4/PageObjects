@@ -13,6 +13,9 @@ namespace ClassLibrary1
                 var adminPanel = loginPage.Login("automatyzacja", "auto@Zima2019");
                 var exampleNote = new ExampleNote();
                 var CreateNewNote = adminPanel.CreateNewNote(exampleNote);
+                var logOut = adminPanel.LogOut();
+
+
                 
             }
 

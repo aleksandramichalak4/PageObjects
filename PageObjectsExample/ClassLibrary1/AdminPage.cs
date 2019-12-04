@@ -1,10 +1,13 @@
 ﻿using System;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Interactions;
+using OpenQA.Selenium.Support.UI;
 
 namespace ClassLibrary1
 {
     internal class AdminPage
     {
+        internal object logOut;
         private IWebDriver browser;
 
         public AdminPage(IWebDriver browser)
@@ -12,7 +15,7 @@ namespace ClassLibrary1
             this.browser = browser;
         }
 
-        internal object CreateNewNote(ExampleNote exampleNote)
+        internal string CreateNewNote(ExampleNote exampleNote)
         {
            var noteBox = browser.FindElement(By.LinkText("Wpisy"));
            noteBox.Click();
@@ -23,17 +26,46 @@ namespace ClassLibrary1
            var content = browser.FindElement(By.Id("content"));
            content.SendKeys(exampleNote.Content);
 
-           return new AdminPage(browser);
+           browser.FindElement(By.Id("publish")).Submit();
 
+            var postUrl = browser.FindElement(By.CssSelector("#sample-permalink > a"));
+           var url = postUrl.GetAttribute("href");
 
-
-
+           //var link = browser.FindElement(By.Id("content"));
+           //var linkText = link.GetAttribute("href");
 
 
             
 
-
+           return url;
 
         }
+
+        internal object LogOut()
+        {
+            MoveToElement(By.Id("wp-admin-bar-top-secondary"));         
+            WaitForClickable(By.LinkText("Wyloguj się"), 5);
+            var logoutButton = browser.FindElement(By.LinkText("Wyloguj się"));
+            logoutButton.Click();
+
+            return null;
+        }
+        internal void MoveToElement(By selector)
+        {
+            var element = browser.FindElement(selector);
+            MoveToElement(element);
+        }
+        internal void MoveToElement(IWebElement element)
+        {
+            Actions builder = new Actions(browser);
+            Actions moveTo = builder.MoveToElement(element);
+            moveTo.Build().Perform();
+        }
+        internal void WaitForClickable(By by, int seconds)
+        {
+            var wait = new WebDriverWait(browser, TimeSpan.FromSeconds(seconds));
+            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementToBeClickable(by));
+        }
+
     }
 }
